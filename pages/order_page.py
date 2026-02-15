@@ -72,9 +72,8 @@ class OrderPage(BasePage):
     def fill_data_about_rent(self, data):
         self.set_today_date()
         self.choose_rent_period(data["rent_period"])
-        self.choose_color(data.get("color", "black"))
-        if data.get("comment"):
-            self.add_comment(data["comment"])
+        self.choose_color(data["color"])
+        self.add_comment(data["comment"])
 
     @allure.step("Оформить заказ и подтвердить (Заказать → Да)")
     def submit_order(self):
