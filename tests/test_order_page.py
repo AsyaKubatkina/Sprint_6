@@ -8,10 +8,11 @@ from data import ORDER_DATA
 def test_create_order(prepared_driver, entry_point, client_data, rent_data):
     order = OrderPage(prepared_driver)
 
-    if entry_point == "top":
-        order.click_order_top()
-    else:
-        order.click_order_bottom()
+    actions = {
+        "top": order.click_order_top,
+        "bottom": order.click_order_bottom,
+    }
+    actions[entry_point]()
 
     order.check_fields_about_client_opened()
 
