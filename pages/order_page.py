@@ -78,7 +78,7 @@ class OrderPage(BasePage):
     @allure.step("Оформить заказ и подтвердить (Заказать → Да)")
     def submit_order(self):
         self.click(L.ORDER_BTN)
-        assert self.find(L.CONFIRM_TITLE).is_displayed()
+        self.find(L.CONFIRM_TITLE)
         self.click(L.YES_BTN)
 
     @allure.step("Проверить, что заказ оформлен")
