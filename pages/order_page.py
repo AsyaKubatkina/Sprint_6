@@ -16,10 +16,6 @@ class OrderPage(BasePage):
         self.scroll_to(L.ORDER_BOTTOM)  
         self.click(L.ORDER_BOTTOM)
 
-    @allure.step("Проверить, что открылась форма заказа: 'Для кого самокат'")
-    def check_fields_about_client_opened(self):
-        assert self.find(L.FOR_WHO_HEADER).is_displayed()
-
     @allure.step("Шаг 1: заполнить данные клиента и нажать 'Далее'")
     def fill_data_about_client(self, data):
         self.find(L.FIRST_NAME).send_keys(data["first_name"])
@@ -33,10 +29,6 @@ class OrderPage(BasePage):
 
         self.find(L.PHONE).send_keys(data["phone"])
         self.click(L.NEXT_BTN)
-
-    @allure.step("Проверить, что открылся шаг 'Про аренду'")
-    def check_fields_about_rent_opened(self):
-        assert self.find(L.PRO_RENT_HEADER).is_displayed()
 
     @staticmethod
     def today_str():
@@ -57,10 +49,11 @@ class OrderPage(BasePage):
 
     @allure.step("Аренда: выбрать цвет: {color}")
     def choose_color(self, color):
-        if color == "black":
-            self.click(L.COLOR_BLACK)
-        elif color == "grey":
-            self.click(L.COLOR_GREY)
+        colors = {
+            "black": L.COLOR_BLACK,
+            "grey": L.COLOR_GREY,
+        }
+        self.click(colors[color])
 
     @allure.step("Аренда: добавить комментарий")
     def add_comment(self, comment):
@@ -85,6 +78,12 @@ class OrderPage(BasePage):
     def check_order_success(self):
         assert self.find(L.SUCCESS_TITLE).is_displayed()
 
+    @allure.step("Создать заказ, появляется попап 'Заказ оформлен'")
+    def create_order(self, click_method, client_data, rent_data):
+        click_method()
+        self.fill_data_about_client(client_data)
+        self.fill_data_about_rent(rent_data)
+        self.submit_order()
 
     @allure.step("Нажать 'Посмотреть статус'")
     def click_view_status(self):
@@ -95,16 +94,13 @@ class OrderPage(BasePage):
         self.wait.until(lambda d: any(ch.isdigit() for ch in self.find(L.SUCCESS_TEXT).text))
         return self.find(L.SUCCESS_TEXT).text
 
-
     @allure.step("Клик по логотипу Самоката")
     def click_scooter_logo(self):
         self.click(L.SCOOTER_LOGO)
 
-
     @allure.step("Клик по логотипу Яндекса (в новую вкладку)")
     def click_yandex_logo(self):
         self.click_and_switch_to_new_tab(L.YANDEX_LOGO)
-
 
     @allure.step("Проверить, что открылась страница Яндекса/Дзена (видно поле поиска)")
     def check_yandex_search_visible(self):
@@ -113,3 +109,5 @@ class OrderPage(BasePage):
     @allure.step("Страница статуса заказа > Нажатие на логотип Самокат > Проверить, что открывается главная страница ")
     def check_main_header_visible(self):
         assert self.find(L.MAIN_HEADER).is_displayed()
+
+    

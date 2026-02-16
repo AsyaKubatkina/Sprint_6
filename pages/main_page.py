@@ -3,11 +3,6 @@ from pages.base_page import BasePage
 from locators.main_page_locators import MainPageLocators as L
 
 class MainPage(BasePage):
-    URL = "https://qa-scooter.praktikum-services.ru/"
-
-    @allure.step("Открыть главную страницу Самоката")
-    def open_main(self):
-        self.open(self.URL)
 
     @allure.step("Проскроллить до последнего вопроса FAQ")
     def scroll_to_last_faq(self):

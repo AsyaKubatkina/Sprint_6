@@ -1,7 +1,9 @@
 import pytest
 from selenium import webdriver
+from config import BASE_URL
 from pages.main_page import MainPage
 from locators.main_page_locators import MainPageLocators as L
+from pages.base_page import BasePage
 
 @pytest.fixture
 def driver():
@@ -11,11 +13,11 @@ def driver():
 
 @pytest.fixture
 def prepared_driver(driver):
-    # 1) открываем главную
-    main = MainPage(driver)
-    main.open_main()
+    # открыть сайт
+    driver.get(BASE_URL)
 
-    # 2) закрываем cookies (если есть)
-    main.close_cookies_if_present(L.COOKIE_ACCEPT)
+    # закрыть cookies
+    base = BasePage(driver)
+    base.close_cookies_if_present(L.COOKIE_ACCEPT)
 
     return driver

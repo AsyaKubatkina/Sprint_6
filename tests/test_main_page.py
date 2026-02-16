@@ -12,7 +12,7 @@ class TestMainPageFAQ:
 
     @allure.title("FAQ: при клике на вопрос #{num} открывается правильный ответ")
     @pytest.mark.parametrize("num, expected_text", FAQ_DATA)
-    def test_faq_answer_opens_correct_text(self, driver, num, expected_text, prepared_driver):
+    def test_faq_answer_opens_correct_text(self, num, expected_text, prepared_driver):
         page = MainPage(prepared_driver)
 
         page.open_faq_answer(num)
